@@ -1,78 +1,129 @@
-import { useRef, useState, type ReactNode } from 'react';
-import { motion } from 'framer-motion';
+import { cn } from "@/lib/utils";
+import { useState, useRef, type MouseEvent, type ReactNode } from "react";
 
-export function CardContainer({ children, className = '' }: { children: ReactNode; className?: string }) {
-  const [rotateX, setRotateX] = useState(0);
-  const [rotateY, setRotateY] = useState(0);
-  const cardRef = useRef<HTMLDivElement>(null);
+export const CardContainer = ({
+  children,
+  className,
+  containerClassName,
+}: {
+  children?: ReactNode;
+  className?: string;
+  containerClassName?: string;
+}) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isMouseEntered, setIsMouseEntered] = useState(false);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateXValue = ((y - centerY) / centerY) * -10;
-    const rotateYValue = ((x - centerX) / centerX) * 10;
-    setRotateX(rotateXValue);
-    setRotateY(rotateYValue);
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+    const { left, top, width, height } =
+      containerRef.current.getBoundingClientRect();
+    const x = (e.clientX - left - width / 2) / 25;
+    const y = (e.clientY - top - height / 2) / 25;
+    containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+  };
+
+  const handleMouseEnter = () => {
+    setIsMouseEntered(true);
+    if (!containerRef.current) return;
   };
 
   const handleMouseLeave = () => {
-    setRotateX(0);
-    setRotateY(0);
+    if (!containerRef.current) return;
+    setIsMouseEntered(false);
+    containerRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
   };
 
   return (
-    <motion.div
-      ref={cardRef}
-      className={`perspective-1000 ${className}`}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      animate={{
-        rotateX,
-        rotateY,
+    <div
+      className={cn("flex items-center justify-center", containerClassName)}
+      style={{
+        perspective: "1000px",
       }}
-      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-      style={{ transformStyle: 'preserve-3d' }}
     >
-      {children}
-    </motion.div>
+      <div
+        ref={containerRef}
+        onMouseEnter={handleMouseEnter}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className={cn(
+          "relative flex items-center justify-center transition-all duration-200 ease-linear",
+          className
+        )}
+        style={{
+          transformStyle: "preserve-3d",
+        }}
+      >
+        {children}
+      </div>
+    </div>
   );
-}
+};
 
-export function CardBody({ children, className = '' }: { children: ReactNode; className?: string }) {
+export const CardBody = ({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) => {
   return (
-    <div className={className} style={{ transformStyle: 'preserve-3d' }}>
+    <div
+      className={cn(
+        "h-96 w-96 [transform-style:preserve-3d]  [&>*]:[transform-style:preserve-3d]",
+        className
+      )}
+    >
       {children}
     </div>
   );
-}
+};
 
-export function CardItem({ 
-  children, 
-  className = '',
-  translateZ = '0px',
-  as: Component = 'div',
+export const CardItem = ({
+  as: Tag = "div",
+  children,
+  className,
+  translateX = 0,
+  translateY = 0,
+  translateZ = 0,
+  rotateX = 0,
+  rotateY = 0,
+  rotateZ = 0,
   ...rest
-}: { 
-  children: ReactNode; 
+}: {
+  as?: any;
+  children: ReactNode;
   className?: string;
-  translateZ?: string;
-  as?: React.ElementType;
+  translateX?: number | string;
+  translateY?: number | string;
+  translateZ?: number | string;
+  rotateX?: number | string;
+  rotateY?: number | string;
+  rotateZ?: number | string;
   [key: string]: any;
-}) {
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isMouseEntered, setIsMouseEntered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsMouseEntered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsMouseEntered(false);
+  };
+
   return (
-    <Component 
-      className={className}
-      style={{ 
-        transform: `translateZ(${translateZ})`,
-        transformStyle: 'preserve-3d' 
+    <Tag
+      ref={ref}
+      className={cn(className)}
+      style={{
+        transform: `translateX(${translateX}px) translateY(${translateY}px) translateZ(${translateZ}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg)`,
       }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       {...rest}
     >
       {children}
-    </Component>
+    </Tag>
   );
-}
+};

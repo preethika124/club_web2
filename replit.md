@@ -7,9 +7,13 @@ This is a React + TypeScript + Vite website for an AI Club at Tech University En
 - ✅ Configured Vite for Replit environment (0.0.0.0:5000 with allowedHosts: true)
 - ✅ Added Team section with @tanstack/react-query for data management
 - ✅ Integrated react-intersection-observer for scroll animations
-- ✅ Created custom 3D card components with hover effects
+- ✅ Created enhanced 3D card components with advanced hover effects
+  - Supports full 3D transforms (translateX, translateY, translateZ, rotateX, rotateY, rotateZ)
+  - Smooth mouse-tracking animations
+  - Perspective-based 3D tilt effects
 - ✅ Added professional stock images for all 8 team members
 - ✅ Set up path aliases (@/ and @shared/) for cleaner imports
+- ✅ Installed utility libraries (clsx, tailwind-merge) for class name management
 - ✅ Configured deployment for Replit autoscale
 - ✅ Team section fully functional with navigation and scroll detection
 
