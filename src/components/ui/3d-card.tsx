@@ -73,7 +73,7 @@ export const CardBody = ({
         className
       )}
     >
-      {/* Animated Border Beam Effect - positioned behind content */}
+      {/* Main Rotating Border Beam */}
       <div className="absolute inset-[-3px] rounded-2xl pointer-events-none opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 z-0 overflow-visible">
         {/* Rotating gradient border beam with glow */}
         <div 
@@ -94,7 +94,7 @@ export const CardBody = ({
         />
       </div>
       
-      {/* Second animated border beam (delayed for dynamic effect) */}
+      {/* Second Rotating Border Beam (delayed) */}
       <div className="absolute inset-[-3px] rounded-2xl pointer-events-none opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 z-0 overflow-visible">
         <div 
           className="absolute inset-0 rounded-2xl"
@@ -111,6 +111,45 @@ export const CardBody = ({
             background: 'conic-gradient(from 180deg at 50% 50%, transparent 0deg, transparent 80deg, #06b6d4 89deg, #059669 91deg, transparent 100deg, transparent 360deg)',
             animation: 'border-beam 2.5s linear infinite',
             animationDelay: '1.25s',
+          }}
+        />
+      </div>
+      
+      {/* Small Traveling Light Beam - moves around edges */}
+      <div className="absolute inset-[-2px] rounded-2xl pointer-events-none opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 z-0">
+        <div 
+          className="absolute inset-0 rounded-2xl"
+          style={{
+            background: 'conic-gradient(from 0deg at 50% 50%, transparent 0deg, transparent 88deg, rgba(255, 255, 255, 0.9) 89.5deg, rgba(8, 145, 178, 1) 90deg, rgba(16, 185, 129, 1) 90.5deg, rgba(255, 255, 255, 0.9) 91deg, transparent 92deg, transparent 360deg)',
+            animation: 'border-beam 3s linear infinite',
+            filter: 'blur(1px) brightness(1.2)',
+          }}
+        />
+        {/* Sharp focused beam without blur */}
+        <div 
+          className="absolute inset-0 rounded-2xl"
+          style={{
+            background: 'conic-gradient(from 0deg at 50% 50%, transparent 0deg, transparent 89deg, #ffffff 89.8deg, #0891b2 90deg, #10b981 90.2deg, #ffffff 90.5deg, transparent 91deg, transparent 360deg)',
+            animation: 'border-beam 3s linear infinite',
+          }}
+        />
+      </div>
+      
+      {/* Second Small Traveling Light Beam (opposite direction for dynamic effect) */}
+      <div className="absolute inset-[-2px] rounded-2xl pointer-events-none opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 z-0">
+        <div 
+          className="absolute inset-0 rounded-2xl"
+          style={{
+            background: 'conic-gradient(from 0deg at 50% 50%, transparent 0deg, transparent 268deg, rgba(255, 255, 255, 0.8) 269.5deg, rgba(6, 182, 212, 1) 270deg, rgba(5, 150, 105, 1) 270.5deg, rgba(255, 255, 255, 0.8) 271deg, transparent 272deg, transparent 360deg)',
+            animation: 'border-beam-reverse 3s linear infinite',
+            filter: 'blur(1px) brightness(1.2)',
+          }}
+        />
+        <div 
+          className="absolute inset-0 rounded-2xl"
+          style={{
+            background: 'conic-gradient(from 0deg at 50% 50%, transparent 0deg, transparent 269deg, #ffffff 269.8deg, #06b6d4 270deg, #059669 270.2deg, #ffffff 270.5deg, transparent 271deg, transparent 360deg)',
+            animation: 'border-beam-reverse 3s linear infinite',
           }}
         />
       </div>
